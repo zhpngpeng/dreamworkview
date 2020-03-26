@@ -5,9 +5,7 @@ if (window.localStorage.getItem('token')) {
   Axios.defaults.headers.common['Authorization'] = `Bearer ` + window.localStorage.getItem('token')
 }
 
-export let instance = Axios.create({
-  baseURL: process.env.NODE_ENV === 'production' ? 'http://dreamwork/api' : 'api'
-})
+export let instance = Axios.create({baseURL: 'api'})
 // request拦截器
 instance.interceptors.request.use(
   config => {
@@ -39,11 +37,10 @@ instance.interceptors.response.use(
 )
 
 export const login = ({ loginEmail, loginPassword }) => {
-  let data = JSON.stringify({
+  return instance.post('/u/user/login', {
     email: loginEmail,
     password: loginPassword
   })
-  return instance.post('/u/user/login', data)
 }
 
 export const getUserInfo = () => {
